@@ -1,6 +1,6 @@
 <template>
   <v-main>
-    <v-card v-if="beforeSearch" max-width="600" class="mx-auto">
+    <v-card max-width="600" class="mx-auto">
       <v-text-field
         v-model="keyword"
         append-icon="mdi-magnify"
@@ -10,35 +10,52 @@
       ></v-text-field>
       <v-btn color="primary" @click="search(keyword)">検索</v-btn>
     </v-card>
+    <v-card v-if="beforeSearch">
+      <v-card-text>
+        <p>検索してください</p>
+      </v-card-text>
+    </v-card>
+    <v-card v-else>
+      <v-card-title>検索結果 {{ state.count }}件</v-card-title>
+      <v-card-text>
+        <v-list>
+          <v-list-item v-for="item in state.items" :key="item.id">
+            <v-list-item-content>
+              <v-list-item-title>{{ item.name }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+      </v-card-text>
+    </v-card>
   </v-main>
 </template>
   
   <script>
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 import axios from "axios";
 export default {
   setup() {
+    const beforeSearch = ref(true);
     const state = reactive({
       keyword: null,
       items: [],
     });
-    let beforeSearch = true;
 
     function search(keyword) {
-      beforeSearch = false;
+      this.beforeSearch = false;
+      this.state.keyword = keyword;
       axios
-        .get(`https://example.com/api/search?q=${keyword}`)
+        .get(`https://kb2302-develop.onrender.com/search/label/v1?q=${keyword}`)
         .then((response) => {
-          state.items = response.data;
+          this.state.count = response.data.count;
+          this.state.items = response.data.contents;
         })
         .catch((error) => {
           console.log(error);
         });
     }
-
     return {
-      keyword: state.keyword,
-      items: state.items,
+      state,
       search,
       beforeSearch,
     };
