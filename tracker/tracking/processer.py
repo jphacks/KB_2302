@@ -9,7 +9,7 @@ class Processer():
     def __init__(self):
         self.__conf=0.3
         self.__iou=0.5
-        self.__showflag=False
+        self.__showflag=True
         self.itemresult:List[ItemResult] = []
         self.__dict={}
         self._model = YOLO("tracker/tracking/yolov8n.pt")
@@ -36,7 +36,7 @@ class Processer():
                 self.init=self.__dict[self.label]
                 self.__dict[self.label]=self.init+1
                 
-            self.label=self.label+str(self.__dict[self.label])
+            #self.label=self.label+str(self.__dict[self.label])
             self.leftcoordinatex=int(self.results[0].boxes[i].xyxy[0][0])
             self.leftcoordinatey=int(self.results[0].boxes[i].xyxy[0][1])
             self.rightcoordinatex=int(self.results[0].boxes[i].xyxy[0][2])
