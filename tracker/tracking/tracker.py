@@ -1,5 +1,6 @@
 import time
 import numpy
+import asyncio
 from typing import List
 from components.TimeSeriesData import TimeSeriesData
 from components.FrameResult import FrameResult
@@ -78,7 +79,7 @@ class Tracker():
             self._resImgCreator.CreateImg(self._framaRes, self.ProcResult[i].Label)
             self._foundDBIdx:int = self._itemExp.FindFromLabelInResDB(self._resDB, self.ProcResult[i].Label)
             self._resDB[self._foundDBIdx].Result.append(self._framaRes)
-        
+            
             # 一番古いデータを削除する．
             if(len(self._resDB[self._foundDBIdx].Result) >  self._threshListCount):
                 del(self._resDB[self._foundDBIdx].Result[0])
@@ -88,7 +89,7 @@ class Tracker():
             if(len(self._nowKeysList)==0):
                 self._isDeleteRegist:bool = True
                 self._removeIdx = 0
-                postData(
+                res = postData(
                     label = self._formerKeysList[self._removeIdx],
                     rawimg=self.RawImg,
                     detectimg=self.RawImg
@@ -105,8 +106,8 @@ class Tracker():
                             self._isDeleteRegist = True
                     if(self._isDeleteRegist):
                         self._removeIdx = self._itemExp.FindFromLabelInResDB(self._resDB, self._nowKeysList[i])
-                        postData(
-                            label = self._nowKeysList[self._removeIdx],
+                        res = postData(
+                            label = self._formerKeysList[self._removeIdx],
                             rawimg=self.RawImg,
                             detectimg=self.RawImg
                         )
