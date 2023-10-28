@@ -7,8 +7,11 @@
         label="検索"
         single-line
         hide-details
+        @keydown.enter="search(state.keyword)"
       ></v-text-field>
-      <v-btn color="primary" @click="search(state.keyword)">検索</v-btn>
+      <v-btn color="primary" width="100%" @click="search(state.keyword)"
+        >検索</v-btn
+      >
     </v-card>
     <v-card v-if="beforeSearch">
       <v-card-text>
@@ -16,16 +19,27 @@
       </v-card-text>
     </v-card>
     <v-card v-else>
-      <v-card-title>検索結果 {{ state.count }}件 - {{ state.keyword }}</v-card-title>
-      <v-card-text>
-        <v-list>
-          <v-list-item v-for="item in state.items" :key="item.id">
-              <v-list-item-title>{{ item.label }}</v-list-item-title>
+      <v-card-title
+        >検索結果 {{ state.count }}件 - {{ state.keyword }}</v-card-title
+      >
+      <v-container>
+        <v-row>
+          <v-col v-for="item in state.items" :key="item.id" cols="3">
+            <v-card ma-2>
+              <v-list-item-title>Room{{ item.room_id }}</v-list-item-title>
               <img v-bind:src="item.imgURL" width="300" />
-              <p>{{ item.time }} / {{ item.room_id }}</p>
-          </v-list-item>
-        </v-list>
-      </v-card-text>
+              <p>{{ item.time }}</p>
+              <!--新しいタブで画像を開くボタン-->
+              <v-btn
+                color="primary"
+                text
+                @click="openImageInNewTab(item.imgURL)"
+                >画像を見る</v-btn
+              >
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-container>
     </v-card>
   </v-main>
 </template>
@@ -40,7 +54,9 @@ export default {
       keyword: null,
       items: [],
     });
-
+    function openImageInNewTab(url) {
+      window.open(url, "_blank");
+    }
     function search(keyword) {
       this.beforeSearch = false;
       axios
@@ -58,6 +74,7 @@ export default {
     return {
       state,
       search,
+      openImageInNewTab,
       beforeSearch,
     };
   },
