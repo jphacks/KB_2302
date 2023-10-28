@@ -1,5 +1,8 @@
 <template>
   <v-main>
+    <v-card>
+      <v-card-title>JPHACKS KB_2302 なくしものさがし</v-card-title>
+    </v-card>
     <v-tabs v-model="tab" bg-color="primary">
       <v-tab value="one">検索</v-tab>
       <v-tab value="two">捜索物一覧</v-tab>
