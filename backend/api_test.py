@@ -2,12 +2,13 @@ import requests
 import datetime
 
 url = 'http://localhost:8000/tracker/lost'
+url = "https://kb2302-jphack-471e16480034.herokuapp.com/tracker/lost"
 
 time = datetime.datetime.utcnow().strftime("%Y/%m/%d %H:%M:%S")
-user = "test_user"
-room_id = 0
-camera_id = 1
-label = "mouse"
+user = "heroku使ってみるよ"
+room_id = 2
+camera_id = 5
+label = "pen case"
 image = open("IMG_4232.jpg", 'rb')
 detect_image = open("IMG_4232detect.jpg", 'rb')
 valid = True

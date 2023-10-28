@@ -1,3 +1,4 @@
+import os
 import settings
 import json
 from flask import Flask, jsonify, request
@@ -8,7 +9,7 @@ from firebase_admin import storage
 import datetime
 
 
-flask_app = Flask(__name__)
+app = Flask(__name__)
 
 cred = credentials.Certificate(json.loads(settings.FIREBASE_CREDENTIALS))
 firebase_app = firebase_admin.initialize_app(cred)
@@ -36,7 +37,7 @@ def upload_document(time, user, room_id, camera_id, label, image_url, detect_ima
     print(f"{update_time}: Added document with id {doc_ref.id}")
 
 
-@flask_app.route("/tracker/lost", methods=["POST"])
+@app.route("/tracker/lost", methods=["POST"])
 def lost():
     time = firestore.SERVER_TIMESTAMP
     user = request.form.get("user")
@@ -51,9 +52,14 @@ def lost():
     upload_document(time, user, room_id, camera_id, label, img_url, detect_img_url, valid)
     return jsonify({"status": "ok"})
 
+@app.route('/')
+def index():
+    return 'hello, world'
+
 
 if __name__ == '__main__':
-    flask_app.run()
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
     """
     img = ""
     detect_img = ""
