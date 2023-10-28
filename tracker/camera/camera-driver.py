@@ -13,7 +13,7 @@ class CamController():
         while True:
             ret, frame = self.cap.read()
             cv2.imshow('Window', frame)
-            if cv2.waitKey(33) == 27:       # 30fpsなので33ms待機, ESCキーで終了
+            if cv2.waitKey(33) == 27:       # 30fpsなので33ms待機, ESCキーでbreak
                 break
             strdate=datetime.datetime.now().strftime('%Y%m%dT%H%M%S%f') # 撮影時刻の生成
             fname=dir + strdate + ".jpg"    # ファイル名の結合
