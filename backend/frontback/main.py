@@ -4,13 +4,29 @@ from fastapi.responses import JSONResponse
 import firebase_admin
 from firebase_admin import credentials, firestore
 import datetime
+from fastapi.middleware.cors import CORSMiddleware
 
 cred = credentials.Certificate(".secret.json")
 firebase_admin.initialize_app(cred)
 db = firestore.client()
 
+origins = [
+    "https://kb-2302.vercel.app/",
+    "http://localhost",
+    "http://localhost:8080",
+    "http://localhost:8081",
+]
+
+
 app = FastAPI()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/")
 async def root():
