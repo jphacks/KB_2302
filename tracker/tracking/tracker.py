@@ -55,11 +55,12 @@ class Tracker():
                         self._resImgCreator.CreateImg(self.addedProcRes, self.ProcResult[i].Label)
                         self.addedItem = TimeSeriesData(self.ProcResult[i].Label, self.addedProcRes)
                         self._resDB.append(self.addedItem)
+                        print(f"[INFO]   Added to Tracking Items: {self.ProcResult[i].Label}")
         else:
             self.InitResDB(self.ProcResult, self.RawImg, self.snapdate)
         
         # 追跡中の物体の各々について，データベースを更新する．
-        for i in range(len(self._resDB)):
+        for i in range(len(self.ProcResult)):
             # TODO このフレームの画像処理結果をデータベースに保存する．
             self._framaRes = FrameResult(self._roopCounter, self.ProcResult[i].Box, self.snapdate, self.RawImg, numpy.zeros(8))
             self._resImgCreator.CreateImg(self._framaRes, self.ProcResult[i].Label)
@@ -71,6 +72,8 @@ class Tracker():
                 del(self._resDB[self._foundDBIdx].Result[0])
         
             # TODO 物体が消えた場合の処理を追加する
+            if (self.ProcResult[i].IsDetected == False):
+                print(f"[INFO] Deleted from Tracking Items: {self.ProcResult[i].Label}")
                 # 消えた場合は，フロント側のデータベースに情報を受け渡す
                 # 消えていなければ，pass
         
@@ -80,12 +83,12 @@ class Tracker():
 
 if __name__ == "__main__":
     app=Tracker("trial")
-    elapsedSec = 25
+    elapsedSec = 50
     startTime = time.time()
     while True:
         app.Execute()
-        cv2.imshow("result", app._resDB[0].Result[-1].ResultImg)
-        cv2.waitKey(33)
+        #cv2.imshow("result", app._resDB[0].Result[-1].ResultImg)
+        #cv2.waitKey(33)
         if((time.time() - startTime) > elapsedSec):
             break
     #dataCount = 10
