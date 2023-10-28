@@ -25,7 +25,7 @@ class Tracker():
         self._resDB:List[TimeSeriesData] = []
         self._itemCount:int = 0
         self._threshListCount = 10 # 保存するフレーム数
-        self._cam:CamController = CamController(0)
+        self._cam:CamController = CamController(1)
         self._itemExp:ItemExplorer = ItemExplorer()
         self._resImgCreator:ResultImgCreator = ResultImgCreator([0, 255, 0], [211, 0, 148])
         #self._proc = ProcessorForTest(10)
