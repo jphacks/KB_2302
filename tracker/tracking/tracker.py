@@ -25,8 +25,8 @@ class Tracker():
         self._itemCount:int = 0
         self._threshListCount = 10 # 保存するフレーム数
         self._cam:CamController = CamController(1)
-        self._proc = ProcessorForTest(10)
-        #self._proc = Processer()
+        #self._proc = ProcessorForTest(10)
+        self._proc = Processer()
     
     def InitResDB(self, procResult:List[ItemResult], frame:numpy, time:datetime):
         for i in len(procResult):
@@ -36,8 +36,9 @@ class Tracker():
 
     def Execute(self):
         # TODO 1. もっさの画像処理部分を統合する
+        self.snapdate, self.RawImg = self._cam.GetFrame()
         # TODO 2. YOLOv5で物体検出部分を実装する
-        self.ProcResult = self._proc.Execute()
+        self.ProcResult = self._proc.Execute(self.RawImg)
 
         # TODO 3. 今回のループで検出した物体の総数 > 前回のループの総数のとき，新たに物体をDBに登録する
         # TODO 2.で検出した物体数を"0"の部分に代入する．

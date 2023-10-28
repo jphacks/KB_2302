@@ -12,10 +12,10 @@ class Processer():
         self.itemresult:List[ItemResult] = []
         self.__dict={}
 
-    def Execute(self,path):
+    def Execute(self,frame):
         model = YOLO("tracker/tracking/yolov8n.pt")
         results = model.track(
-        source=path,
+        frame,
         conf=self.__conf, 
         iou=self.__iou, 
         show=self.__showflag
