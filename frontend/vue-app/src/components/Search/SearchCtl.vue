@@ -16,7 +16,7 @@
       </v-card-text>
     </v-card>
     <v-card v-else>
-      <v-card-title>検索結果 {{ state.count }}件</v-card-title>
+      <v-card-title>検索結果 {{ state.count }}件 - {{ state.keyword }}</v-card-title>
       <v-card-text>
         <v-list>
           <v-list-item v-for="item in state.items" :key="item.id">
@@ -46,12 +46,13 @@ export default {
       axios
         .get(`https://kb2302-develop.onrender.com/search/label/v1?q=${keyword}`)
         .then((response) => {
-          console.log(response.data.contents);
           this.state.count = response.data.count;
           this.state.items = response.data.contents;
+          return true;
         })
         .catch((error) => {
           console.log(error);
+          return false;
         });
     }
     return {
