@@ -37,7 +37,7 @@ class Tracker():
             # TODO 物体が消えた場合の処理を追加する
                 # 消えた場合は，フロント側のデータベースに情報を受け渡す
                 # 消えていなければ，pass
-                print("end")
+
 if __name__ == "__main__":
      app=Tracker("trial")
      app.Execute()
