@@ -15,6 +15,7 @@ class Processer():
         self._model = YOLO("tracker/tracking/yolov8n.pt")
 
     def Execute(self,frame):
+        self.itemresult.clear()
         self.results = self._model.track(
         frame,
         conf=self.__conf, 

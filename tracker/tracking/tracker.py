@@ -30,6 +30,9 @@ class Tracker():
         self._resImgCreator:ResultImgCreator = ResultImgCreator([0, 255, 0], [211, 0, 148])
         #self._proc = ProcessorForTest(10)
         self._proc = Processer()
+        self._keysList = []
+        self._formerKeysList = []
+        
     
     def InitResDB(self, procResult:List[ItemResult], frame:numpy, time:datetime):
         for i in range(len(procResult)):
@@ -47,9 +50,9 @@ class Tracker():
         # TODO 3. 今回のループで検出した物体の総数 > 前回のループの総数のとき，新たに物体をDBに登録する
         # TODO 2.で検出した物体数を"0"の部分に代入する．
         if (self._roopCounter > 0):
+            self._keysList = list(self._proc.DetectedItemDict.keys())
+            self._formerKeysList = list(self._formerDetectedItemDic.keys())
             if (len(self.ProcResult) > self._itemCount):
-                self._keysList = list(self._proc.DetectedItemDict.keys())
-                self._formerKeysList = list(self._formerDetectedItemDic.keys())
                 for i in range(len(self._keysList)):
                     self._isMakeRegist:bool = False
                     if(self._keysList[i] not in self._formerKeysList):
@@ -63,7 +66,7 @@ class Tracker():
                         self._resImgCreator.CreateImg(self.addedProcRes, self._keysList[i])
                         self.addedItem = TimeSeriesData(self._keysList[i], self.addedProcRes)
                         self._resDB.append(self.addedItem)
-                        print(f"[INFO]   Added to Tracking Items: {self._keysList[i]}")
+                        print(f"[ADD  ] : {self._keysList[i]}")
         else:
             self.InitResDB(self.ProcResult, self.RawImg, self.snapdate)
         
@@ -79,11 +82,21 @@ class Tracker():
             if(len(self._resDB[self._foundDBIdx].Result) >  self._threshListCount):
                 del(self._resDB[self._foundDBIdx].Result[0])
         
-            # TODO 物体が消えた場合の処理を追加する
-            if (self.ProcResult[i].IsDetected == False):
-                print(f"[INFO] Deleted from Tracking Items: {self.ProcResult[i].Label}")
-                # 消えた場合は，フロント側のデータベースに情報を受け渡す
-                # 消えていなければ，pass
+        # TODO 物体が消えた場合の処理を追加する
+        if (len(self.ProcResult) < self._itemCount):
+            for i in range(len(self._keysList)):
+                self._isDeleteRegist:bool = False
+                if(self._keysList[i] not in self._keysList):
+                    self._isDeleteRegist = True
+                if(self._isDeleteRegist == False):
+                    if(self._proc.DetectedItemDict[self._keysList[i]] < self._formerDetectedItemDic[self._keysList[i]]):
+                        self._isDeleteRegist = True
+                if(self._isDeleteRegist):
+                    self._removeIdx = self._itemExp.FindFromLabelInResDB(self._resDB, self._keysList[i])
+                    del self._resDB[self._removeIdx ]
+                    print(f"[REMOVE] : {self._keysList[i]}")
+            # 消えた場合は，フロント側のデータベースに情報を受け渡す
+            # 消えていなければ，pass
         
         # 次ループに向けた後処理
         self._roopCounter = self._roopCounter + 1
