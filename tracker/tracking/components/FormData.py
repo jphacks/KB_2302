@@ -4,9 +4,26 @@ import requests
 import asyncio
 import aiohttp
 
-url = "https://msdocs-custom-container-tutorial.azurewebsites.net/tracker/lost"
+url = "https://jphacks-kb2302.azurewebsites.net/tracker/lost"
 
 async def postData(
+    label:str,
+    rawimg,
+    detectimg,
+    user:str = "SSSRC",
+    room_id:int = 1,
+    camera_id:int = 1,
+):
+    await __postData(
+        label=label,
+        rawimg=rawimg,
+        detectimg=detectimg,
+        user=user,
+        room_id=room_id,
+        camera_id=camera_id
+    )
+
+async def __postData(
         label:str,
         rawimg,
         detectimg,
@@ -56,23 +73,20 @@ async def postData(
     # Send the POST request
     async with aiohttp.ClientSession() as session:
         async with session.post(url, data=data) as response:
-            response_text = await response.text()
-            return response_text 
+            return await response.text()
 
 
 if __name__ == "__main__":
     # テスト用
     url = "http://127.0.0.1:5000/tracker/lost"
     
-    img = open("../zidane.jpg" ,"rb")
-    detectimg = open("../zidane.jpg", "rb")
+    img = cv2.imread("../zidane.jpg")
+    detectimg = cv2.imread("../zidane.jpg")
     
     # Encode the image as a JPEG byte stream
-    
-    byte_stream = io.BytesIO(img.read())
-    
-    postData(
+
+    asyncio.run(postData(
         "pen case", 
         img, 
         img
-    )
+    ))
