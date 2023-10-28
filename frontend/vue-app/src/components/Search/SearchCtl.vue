@@ -7,7 +7,7 @@
         label="検索"
         single-line
         hide-details
-        @keydown.enter="search(keyword, 1)"
+        @keydown.enter="search(keyword, 2)"
       ></v-text-field>
       <v-btn color="primary" width="50%" @click="search(keyword, 1)"
         >完全一致検索</v-btn
@@ -21,7 +21,12 @@
       </v-card-text>
     </v-card>
     <v-card v-else>
-      <v-card-title v-if="loading">検索中.....</v-card-title>
+      <v-card-title v-if="loading"
+        >検索中.....<v-progress-circular
+          indeterminate
+          color="primary"
+        ></v-progress-circular
+      ></v-card-title>
       <v-card-title v-else
         >検索結果 {{ state.count }}件 - {{ state.keyword }}</v-card-title
       >
@@ -29,7 +34,7 @@
         <v-row>
           <v-col v-for="item in state.items" :key="item.id">
             <v-card ma-2 width="320">
-              <v-list-item-title>Room{{ item.room_id }}</v-list-item-title>
+              <v-list-item-title>Room{{ item.room_id }}-Cam {{ item.camera_id }}-User:{{ item.user }}</v-list-item-title>
               <img v-bind:src="item.imgURL" width="300" />
               <p>{{ item.time }}</p>
               <!--新しいタブで画像を開くボタン-->
