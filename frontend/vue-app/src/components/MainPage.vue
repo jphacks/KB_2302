@@ -14,9 +14,9 @@
         <SearchCtl />
       </v-window-item>
     
-      <v-window-item value="two"> Two </v-window-item>
+      <v-window-item value="two"> 開発中です！！ </v-window-item>
 
-      <v-window-item value="three"> Three </v-window-item>
+      <v-window-item value="three"> 作成中です！！ </v-window-item>
     </v-window>
   </v-main>
 </template>
