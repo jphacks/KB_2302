@@ -3,13 +3,14 @@ import datetime
 
 url = 'http://localhost/tracker/lost'
 #url = "https://kb2302-jphack-471e16480034.herokuapp.com/tracker/lost"
+url = "https://jphacks-kb2302.azurewebsites.net/tracker/lost"
 
 time = datetime.datetime.utcnow().strftime("%Y/%m/%d %H:%M:%S")
-user = "docker使ってみるよ"
+user = "Azure使ってみるよ2"
 room_id = 3
 camera_id = 2
-label = "iphone"
-IMG_NAME = "IMG_4238"
+label = "remote"
+IMG_NAME = "IMG_4239"
 image = open(IMG_NAME + ".jpg", 'rb')
 detect_image = open(IMG_NAME + "detect.jpg", 'rb')
 valid = True

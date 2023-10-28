@@ -7,6 +7,8 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 from firebase_admin import storage
+import uuid
+import shortuuid
 
 
 cred = credentials.Certificate(json.loads(settings.FIREBASE_CREDENTIALS))
@@ -41,8 +43,8 @@ def upload_image(file, filename):
     return blob.public_url
 
 
-def upload_document(time, user, room_id, camera_id, label, image_url, detect_image_url, valid):
-    field = {"time": time, "user": user, "room_id": room_id, "camera_id": camera_id, "label": label, "imgURL": image_url, "detectImgURL": detect_image_url, "valid": valid}
+def upload_document(time, user, room_id, camera_id, label, image_url, detect_image_url):
+    field = {"time": time, "user": user, "room_id": room_id, "camera_id": camera_id, "label": label, "imgURL": image_url, "detectImgURL": detect_image_url, "valid": True}
     update_time, doc_ref =  db.collection('lost_objects').add(field)
     print(f"{update_time}: Added document with id {doc_ref.id}")
 
@@ -53,11 +55,15 @@ async def root():
 
 
 @app.post("/tracker/lost")
-def lost(user: str = Form(), room_id: int = Form(), camera_id: int = Form(), label: str = Form(), img: UploadFile = File(), detect_img: UploadFile = File(), valid: bool = Form()):
+def lost(user: str = Form(), room_id: int = Form(), camera_id: int = Form(), label: str = Form(), img: UploadFile = File(), detect_img: UploadFile = File()):
     time = firestore.SERVER_TIMESTAMP
+    u = uuid.uuid4()
+    s = shortuuid.encode(u)
+    img.filename = f"{s}.jpg"
+    detect_img.filename = f"{s}detect.jpg"
     img_url = upload_image(img.file, img.filename)
     detect_img_url = upload_image(detect_img.file, detect_img.filename)
-    upload_document(time, user, room_id, camera_id, label, img_url, detect_img_url, valid)
+    upload_document(time, user, room_id, camera_id, label, img_url, detect_img_url)
     return {"status": "ok"}
 
 
