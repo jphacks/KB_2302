@@ -8,6 +8,17 @@ import shutil
 import base64
 
 
+targets = [
+    "key",
+    "smartphone",
+    "pencil case",
+    "earphone",
+    "mouse",
+    "remote controller",
+    "wristwatch",
+    "tobacco",
+]
+
 # このファイルのディレクト理を入手
 BASE_DIR = os.path.dirname(
         os.path.abspath(__file__)
@@ -19,7 +30,7 @@ if not os.path.exists(FIGURRES_DIR):
     os.mkdir(FIGURRES_DIR)
 
 
-def main():
+def main(target :str):
     options = Options()
     options.add_argument("--disable-gpu")
     options.add_argument("--disable-extensions")
@@ -31,7 +42,7 @@ def main():
     DRIVER_PATH = "chromedriver.exe" #chromedriverの場所
     driver = webdriver.Chrome()
 
-    query = input('Search word? :')
+    query = target
     url = ("https://www.google.com/search?hl=jp&q=" + "+".join(query.split()) + "&btnG=Google+Search&tbs=0&safe=off&tbm=isch")
     driver.get(url)
 
@@ -82,4 +93,6 @@ def main():
     print(f"Download is complete. {i} images are downloaded.")
 
 if __name__ == '__main__':
-    main()
+    
+    for target in targets:
+        main(target)
