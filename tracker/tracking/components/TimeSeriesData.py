@@ -1,7 +1,7 @@
 from typing import List
-from FrameResult import FrameResult
+from components.FrameResult import FrameResult
 
-class TimeSeriesData:
+class TimeSeriesData():
     """
     ある物体における検出結果の時系列データ
     
