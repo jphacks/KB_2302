@@ -10,6 +10,7 @@ class Processer():
         self.__iou=0.5
         self.__showflag=True
         self.itemresult:List[ItemResult] = []
+        self.__dict={}
 
     def Execute(self,path):
         model = YOLO("tracker/tracking/yolov8n.pt")
@@ -23,6 +24,12 @@ class Processer():
             is_track=results[0].boxes[i].is_track
             labelid=int(results[0].boxes[i].cls[0])
             label=results[0].names[labelid]
+            if(label not in self.__dict):
+                self.__dict[label]=1
+            else:
+                init=self.__dict[label]
+                self.__dict[label]=init+1
+            label=label+str(self.__dict[label])
             leftcoordinatex=results[0].boxes[i].xyxy[0][0]
             leftcoordinatey=results[0].boxes[i].xyxy[0][1]
             rightcoordinatex=results[0].boxes[i].xyxy[0][2]
