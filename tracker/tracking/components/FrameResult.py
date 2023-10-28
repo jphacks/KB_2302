@@ -19,8 +19,8 @@ class FrameResult:
         RawImgを処理し，物体検出結果を重ね合わせた画像データ
     """
     def __init__(self, index:int, position:Point2i, time:float, rawImg:numpy, resultImg:numpy):
-        self.Index = index
-        self.Position = position
-        self.Time = time
-        self.RawImg = rawImg
-        self.ResultImg = resultImg 
+        self.Index:int = index
+        self.Position:Point2i = position
+        self.Time:float = time
+        self.RawImg:numpy = rawImg
+        self.ResultImg:numpy = resultImg 
