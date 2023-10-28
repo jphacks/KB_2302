@@ -10,6 +10,7 @@ from components.ItemResult import ItemResult
 from components.Rectangle import Rectangle
 from components.ItemFinder import ItemExplorer
 from components.ResultImgCreator import ResultImgCreator
+from components.FormData import postData
 import cv2
 import datetime
 
@@ -87,6 +88,11 @@ class Tracker():
             if(len(self._nowKeysList)==0):
                 self._isDeleteRegist:bool = True
                 self._removeIdx = 0
+                postData(
+                    label = self._formerKeysList[self._removeIdx],
+                    rawimg=self.RawImg,
+                    detectimg=self.RawImg
+                )
                 del self._resDB[self._removeIdx]
                 print(f"[ALL REMOVE]")
             else:
@@ -99,6 +105,11 @@ class Tracker():
                             self._isDeleteRegist = True
                     if(self._isDeleteRegist):
                         self._removeIdx = self._itemExp.FindFromLabelInResDB(self._resDB, self._nowKeysList[i])
+                        postData(
+                            label = self._nowKeysList[self._removeIdx],
+                            rawimg=self.RawImg,
+                            detectimg=self.RawImg
+                        )
                         del self._resDB[self._removeIdx ]
                         print(f"[REMOVE] : {self._nowKeysList[i]}")
             # 消えた場合は，フロント側のデータベースに情報を受け渡す
