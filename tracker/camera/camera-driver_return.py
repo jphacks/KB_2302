@@ -9,9 +9,17 @@ class CamController():
     def __init__(self, cam_num:int) -> None:
         self.cap = cv2.VideoCapture(cam_num)
 
-    def save_frame(self, dir):       # cam_num：0=内蔵カメラ, 1,2,...=外付けカメラ
+    def GetFrame(self):       # cam_num：0=内蔵カメラ, 1,2,...=外付けカメラ
         ret, frame = self.cap.read()
         return datetime.datetime.now(), frame
 
     def release(self):
         self.cap.release()
+"""
+if __name__ == "__main__":
+    cam = CamController(1)
+    date, frame = cam.GetFrame()
+    cv2.imshow("result", frame)
+    cv2.waitKey(1000)
+    cv2.destroyAllWindows()
+"""
