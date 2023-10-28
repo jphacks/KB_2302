@@ -13,5 +13,7 @@ class ResultImgCreator():
         cv2.rectangle(result.ResultImg, (result.Rectangle.UpperLeftPoint.X, result.Rectangle.UpperLeftPoint.Y), \
                       (result.Rectangle.UpperLeftPoint.X + result.Rectangle.Width, result.Rectangle.UpperLeftPoint.Y + result.Rectangle.Height),\
                           (self._rectangleBGR[0], self._rectangleBGR[1], self._rectangleBGR[2]), 2)
+        cv2.putText(result.ResultImg, string, (result.Rectangle.UpperLeftPoint.X, result.Rectangle.UpperLeftPoint.Y + 10),\
+                     cv2.FONT_HERSHEY_PLAIN, 1, (self._strBGR[0], self._strBGR[1], self._strBGR[2]))
         #cv2.putText(result.ResultImg, string, result.Rectangle.UpperLeftPoint, 0, 5.0, \
         #            (self._strBGR[0], self._strBGR[1], self._strBGR[2]))

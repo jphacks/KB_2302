@@ -48,8 +48,13 @@ class Tracker():
         # TODO 2.で検出した物体数を"0"の部分に代入する．
         if (self._roopCounter > 0):
             if (len(self.ProcResult) > self._itemCount):
-                pass
-                #self._resDB.append(TimeSeriesData("適当なラベル名"))
+                for i in range(len(self.ProcResult)):
+                    if(self._itemExp.FindFromLabelInResDB(self._resDB, self.ProcResult[i].Label) == -1):
+                        self.addedProcRes = FrameResult(self._roopCounter, self.ProcResult[i].Box, self.snapdate,\
+                                                        self.RawImg, self.RawImg)
+                        self._resImgCreator.CreateImg(self.addedProcRes, self.ProcResult[i].Label)
+                        self.addedItem = TimeSeriesData(self.ProcResult[i].Label, self.addedProcRes)
+                        self._resDB.append(self.addedItem)
         else:
             self.InitResDB(self.ProcResult, self.RawImg, self.snapdate)
         
@@ -75,7 +80,7 @@ class Tracker():
 
 if __name__ == "__main__":
     app=Tracker("trial")
-    elapsedSec = 10
+    elapsedSec = 25
     startTime = time.time()
     while True:
         app.Execute()

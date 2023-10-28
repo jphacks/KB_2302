@@ -7,7 +7,13 @@ class ItemExplorer():
         pass
 
     def FindFromLabelInResDB(self, inputList:List[TimeSeriesData], keyLabel:str):
-        return list(map(lambda x:x.Label, inputList)).index(keyLabel)
-    
+        try:
+            return list(map(lambda x:x.Label, inputList)).index(keyLabel)
+        except ValueError:
+            return -1
+
     def FindFromLabelInProcRes(self, inputList:List[ItemResult], keyLabel:str):
-        return list(map(lambda x:x.Label, inputList)).index(keyLabel)
+        try:
+            return list(map(lambda x:x.Label, inputList)).index(keyLabel)
+        except ValueError:
+            return -1
