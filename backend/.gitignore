@@ -2,3 +2,4 @@ flask-app/__pycache__/
 flask-app/venv/
 flask-app/.env
 flask-app/.gitignore
+.secret.json
