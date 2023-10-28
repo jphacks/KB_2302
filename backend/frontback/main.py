@@ -61,10 +61,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-<<<<<<< HEAD
-=======
-
->>>>>>> master
 
 @app.get("/")
 async def root():
@@ -107,18 +103,11 @@ def search_label_v1(q: Optional[str] = None):
         aobject = doc.to_dict()
         if aobject['label'] == q:
             try:
-<<<<<<< HEAD
-                aobject['time'] = datetime.datetime.fromtimestamp(aobject['time'].timestamp()).strftime('%Y-%m-%d %H:%M:%S')
-            except:
-                aobject['time'] = "Unknown"
-            retdocs.append(aobject)    
-=======
                 dt = datetime.datetime.fromtimestamp(aobject['time'].timestamp())+datetime.timedelta(hours=9)
                 aobject['time'] = dt.strftime('%Y/%m/%d %H:%M:%S')
             except:
                 aobject['time'] = "Unknown"
             retdocs.append(aobject)
->>>>>>> master
     return JSONResponse(content={"count": len(retdocs), "contents": retdocs})
 
 
