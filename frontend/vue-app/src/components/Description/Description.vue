@@ -22,9 +22,11 @@ export default {
 @media screen and (min-width: 300px) {
   .desccard {
     position: relative;
+    margin-top: 20px;
     left: 50%;
     transform: translateX(-50%);
-    width: 600px;
+    max-width: 600px;
+    background-color: lightsteelblue;
   }
 }
 </style>
