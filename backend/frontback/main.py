@@ -11,7 +11,7 @@ firebase_admin.initialize_app(cred)
 db = firestore.client()
 
 origins = [
-    "https://kb-2302.vercel.app/",
+    "https://kb-2302.vercel.app",
     "http://localhost",
     "http://localhost:8080",
     "http://localhost:8081",
