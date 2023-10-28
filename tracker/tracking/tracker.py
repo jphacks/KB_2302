@@ -48,14 +48,22 @@ class Tracker():
         # TODO 2.で検出した物体数を"0"の部分に代入する．
         if (self._roopCounter > 0):
             if (len(self.ProcResult) > self._itemCount):
-                for i in range(len(self.ProcResult)):
-                    if(self._itemExp.FindFromLabelInResDB(self._resDB, self.ProcResult[i].Label) == -1):
+                self._keysList = list(self._proc.DetectedItemDict.keys())
+                self._formerKeysList = list(self._formerDetectedItemDic.keys())
+                for i in range(len(self._keysList)):
+                    self._isMakeRegist:bool = False
+                    if(self._keysList[i] not in self._formerKeysList):
+                        self._isMakeRegist = True
+                    if(self._isMakeRegist == False):
+                        if(self._proc.DetectedItemDict[self._keysList[i]] > self._formerDetectedItemDic[self._keysList[i]]):
+                            self._isMakeRegist = True
+                    if(self._isMakeRegist):
                         self.addedProcRes = FrameResult(self._roopCounter, self.ProcResult[i].Box, self.snapdate,\
-                                                        self.RawImg, self.RawImg)
-                        self._resImgCreator.CreateImg(self.addedProcRes, self.ProcResult[i].Label)
-                        self.addedItem = TimeSeriesData(self.ProcResult[i].Label, self.addedProcRes)
+                                                        self.RawImg, self.RawImg) # 結局位置データは使わないことになってるので，一旦ProcResultの整合性は横に置く
+                        self._resImgCreator.CreateImg(self.addedProcRes, self._keysList[i])
+                        self.addedItem = TimeSeriesData(self._keysList[i], self.addedProcRes)
                         self._resDB.append(self.addedItem)
-                        print(f"[INFO]   Added to Tracking Items: {self.ProcResult[i].Label}")
+                        print(f"[INFO]   Added to Tracking Items: {self._keysList[i]}")
         else:
             self.InitResDB(self.ProcResult, self.RawImg, self.snapdate)
         
@@ -80,17 +88,20 @@ class Tracker():
         # 次ループに向けた後処理
         self._roopCounter = self._roopCounter + 1
         self._itemCount = len(self.ProcResult)
+        # ディクショナリーのコピー
+        self._formerDetectedItemDic = self._proc.DetectedItemDict.copy()
+        self._proc.DetectedItemDict = {}
 
 if __name__ == "__main__":
     app=Tracker("trial")
-    elapsedSec = 50
+    elapsedSec = 100
     startTime = time.time()
     while True:
         app.Execute()
         #cv2.imshow("result", app._resDB[0].Result[-1].ResultImg)
         #cv2.waitKey(33)
-        if((time.time() - startTime) > elapsedSec):
-            break
+        #if((time.time() - startTime) > elapsedSec):
+        #    break
     #dataCount = 10
     #initExp = ItemExplorer()
     #proc = ProcessorForTest(dataCount)
