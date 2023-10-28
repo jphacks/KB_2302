@@ -9,7 +9,7 @@ import json
 import requests
 import os
 # 環境変数を取得
-if True:
+if False:
     import dotenv
     dotenv.load_dotenv()
 goo_api_key = os.environ["GOO_API_KEY"]
