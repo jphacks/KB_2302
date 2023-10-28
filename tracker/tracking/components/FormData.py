@@ -4,7 +4,7 @@ import requests
 import asyncio
 import aiohttp
 
-url = "https://msdocs-custom-container-tutorial.azurewebsites.net/tracker/lost"
+url = "https://jphacks-kb2302.azurewebsites.net/tracker/lost"
 
 async def postData(
         label:str,
