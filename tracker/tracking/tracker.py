@@ -29,7 +29,7 @@ class Tracker():
         self._proc = Processer()
     
     def InitResDB(self, procResult:List[ItemResult], frame:numpy, time:datetime):
-        for i in len(procResult):
+        for i in range(len(procResult)):
             res = FrameResult(0, procResult[i].Box.UpperLeftPoint,  time, frame, frame)
             self._resDB.append(TimeSeriesData(procResult[i].Label, res))
 
@@ -46,13 +46,11 @@ class Tracker():
             if (len(self.ProcResult) > self._itemCount):
                 self._resDB.append(TimeSeriesData("適当なラベル名"))
         else:
-            pass
-            #self.InitResDB(self.ProcResult, self.RawImg, self.snapDate)
+            self.InitResDB(self.ProcResult, self.RawImg, self.snapdate)
         
         # 追跡中の物体の各々について，データベースを更新する．
         for i in range(len(self._resDB)):
             # TODO このフレームの画像処理結果をデータベースに保存する．
-            self._idx:int = list(filter(lambda x:x.Label=='taro',self._resDB))[0]
             self._resDB[i].Result.append(FrameResult(0, Point2i(0,0), time.time(), numpy.zeros(), numpy.zeros()))
         
             # 一番古いデータを削除する．
@@ -62,6 +60,8 @@ class Tracker():
             # TODO 物体が消えた場合の処理を追加する
                 # 消えた場合は，フロント側のデータベースに情報を受け渡す
                 # 消えていなければ，pass
+        self._roopCounter = self._roopCounter + 1
+
 if __name__ == "__main__":
     app=Tracker("trial")
     app.Execute()
