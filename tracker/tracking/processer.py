@@ -3,6 +3,7 @@ from components.ItemResult import ItemResult
 from components.Point2i import Point2i
 from components.Rectangle import Rectangle
 from typing import List
+from components.TargetLabel import GetTargetLabel
 
 class Processer():
     def __init__(self):
@@ -24,11 +25,17 @@ class Processer():
             is_track=results[0].boxes[i].is_track
             labelid=int(results[0].boxes[i].cls[0])
             label=results[0].names[labelid]
-            if(label not in self.__dict):
+            
+            # targetにないラベルは無視する
+            if label not in GetTargetLabel():
+                continue
+            
+            elif(label not in self.__dict):
                 self.__dict[label]=1
             else:
                 init=self.__dict[label]
                 self.__dict[label]=init+1
+                
             label=label+str(self.__dict[label])
             leftcoordinatex=int(results[0].boxes[i].xyxy[0][0])
             leftcoordinatey=int(results[0].boxes[i].xyxy[0][1])
