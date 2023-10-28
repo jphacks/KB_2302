@@ -3,3 +3,4 @@ flask-app/venv/
 flask-app/.env
 flask-app/.gitignore
 .secret.json
+.env
