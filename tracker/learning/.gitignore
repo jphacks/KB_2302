@@ -1,0 +1,10 @@
+# added by kuro0315
+envTarrgetDetermination/*
+# サンプル画像
+bus.jpg 
+# 重み
+*.pt
+# 動画
+*.mp4
+
+./figures/*
