@@ -1,7 +1,9 @@
 from typing import Optional
 from fastapi import FastAPI
+from fastapi.responses import JSONResponse
 import firebase_admin
 from firebase_admin import credentials, firestore
+import datetime
 
 cred = credentials.Certificate(".secret.json")
 firebase_admin.initialize_app(cred)
@@ -28,9 +30,11 @@ def search_label_v1(q: Optional[str] = None):
     docs = collection.stream()
     retdocs = []
     for doc in docs:
-        if doc.to_dict()['label'] == q:
-            retdocs.append(doc.to_dict())      
-    return {"count": len(retdocs), "contents": retdocs}
+        aobject = doc.to_dict()
+        if aobject['label'] == q:
+            aobject['time'] = datetime.datetime.fromtimestamp(aobject['time'].timestamp()).strftime('%Y-%m-%d %H:%M:%S')
+            retdocs.append(aobject)    
+    return JSONResponse(content={"count": len(retdocs), "contents": retdocs})
 
 if __name__ == "__main__":
     import uvicorn
