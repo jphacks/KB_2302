@@ -8,7 +8,7 @@ class Processer():
     def __init__(self):
         self.__conf=0.3
         self.__iou=0.5
-        self.__showflag=True
+        self.__showflag=False
         self.itemresult:List[ItemResult] = []
         self.__dict={}
 
