@@ -8,6 +8,8 @@ from components.camera.CameraDriverReturn import CamController
 from typing import List
 import cv2
 
+# 単体テスト用のimport
+from components.testcomponents.processorForTest import ProcessorForTest
 
 class Tracker():
     def __init__(self, studiedData):
@@ -16,13 +18,18 @@ class Tracker():
         self._itemCount:int = 0
         self._threshListCount = 10 # 保存するフレーム数
         self._cam:CamController = CamController(1)
+        self._proc = ProcessorForTest(10)
+        #self._proc = Processer()
 
     def Execute(self):
         # TODO 1. もっさの画像処理部分を統合する
         self.snapDate, self.RawImg = self._cam.GetFrame()
+        #self.TempFileName = "temp.jpg"
+        #cv2.imwrite(self.TempFileName , self.RawImg)
+
         # TODO 2. YOLOv5で物体検出部分を実装する
-            #processer=Processer()
-            #processer.Execute(photoPath)
+        self._proc.Execute()
+
         # 検出された物体が新たに増えたかどうか判定
         # TODO 2.で検出した物体数を"0"の部分に代入する．
         if (0 < self._itemCount):
@@ -45,7 +52,5 @@ class Tracker():
 if __name__ == "__main__":
      app=Tracker("trial")
      app.Execute()
-     cv2.imshow("result", app.RawImg)
-     cv2.waitKey(1000)
-     cv2.destroyAllWindows()
+
 

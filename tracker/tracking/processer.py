@@ -5,12 +5,14 @@ class Processer():
         self.__conf=0.3
         self.__iou=0.5
         self.__showflag=True
+        self.__model = YOLO('yolov8n.pt')
 
     def Execute(self,path):
-        model = YOLO('yolov8n.pt')
-        results = model.track(
+        results = self.__model.track(
         source=path,
         conf=self.__conf, 
         iou=self.__iou, 
         show=self.__showflag
         )
+
+        results.show()
