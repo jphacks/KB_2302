@@ -48,7 +48,10 @@ def search_label_v1(q: Optional[str] = None):
     for doc in docs:
         aobject = doc.to_dict()
         if aobject['label'] == q:
-            aobject['time'] = datetime.datetime.fromtimestamp(aobject['time'].timestamp()).strftime('%Y-%m-%d %H:%M:%S')
+            try:
+                aobject['time'] = datetime.datetime.fromtimestamp(aobject['time'].timestamp()).strftime('%Y-%m-%d %H:%M:%S')
+            except:
+                aobject['time'] = "Unknown"
             retdocs.append(aobject)    
     return JSONResponse(content={"count": len(retdocs), "contents": retdocs})
 
