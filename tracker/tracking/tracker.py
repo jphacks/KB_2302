@@ -47,7 +47,8 @@ class Tracker():
             if (len(self.ProcResult) > self._itemCount):
                 self._resDB.append(TimeSeriesData("適当なラベル名"))
         else:
-            self.InitResDB(self.ProcResult, self.RawImg, self.snapDate)
+            pass
+            #self.InitResDB(self.ProcResult, self.RawImg, self.snapDate)
         
         # 追跡中の物体の各々について，データベースを更新する．
         for i in range(len(self._resDB)):
@@ -68,8 +69,8 @@ class Tracker():
         self._itemCount = len(self.ProcResult)
 
 if __name__ == "__main__":
-    #app=Tracker("trial")
-    #app.Execute()
+    app=Tracker("trial")
+    app.Execute()
     dataCount = 10
     initExp = ItemExplorer()
     proc = ProcessorForTest(dataCount)
