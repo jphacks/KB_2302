@@ -22,12 +22,7 @@ loop XX秒ごと
     Note over Device_2: 撮影
     Device_2 ->> System : 画像データ+ファイルパス保存
     Note over System: 画像解析
-    System ->> Back : DB保存処理
-    Back -->> System : Ack
-    Note over System: 追跡量計算?
-    System ->> Device_2 : 追跡要求
-    Note over Device_2: 追跡
-    Device_2 ->> System : 追跡完了通知
+    Note over System: 追跡量計算
     System ->> Back : DB保存処理
 end
 Deactivate Back
