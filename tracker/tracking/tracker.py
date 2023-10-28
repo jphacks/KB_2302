@@ -25,12 +25,12 @@ class Tracker():
         self._resDB:List[TimeSeriesData] = []
         self._itemCount:int = 0
         self._threshListCount = 10 # 保存するフレーム数
-        self._cam:CamController = CamController(1)
+        self._cam:CamController = CamController(0)
         self._itemExp:ItemExplorer = ItemExplorer()
         self._resImgCreator:ResultImgCreator = ResultImgCreator([0, 255, 0], [211, 0, 148])
         #self._proc = ProcessorForTest(10)
         self._proc = Processer()
-        self._keysList = []
+        self._nowKeysList = []
         self._formerKeysList = []
         
     
@@ -50,23 +50,23 @@ class Tracker():
         # TODO 3. 今回のループで検出した物体の総数 > 前回のループの総数のとき，新たに物体をDBに登録する
         # TODO 2.で検出した物体数を"0"の部分に代入する．
         if (self._roopCounter > 0):
-            self._keysList = list(self._proc.DetectedItemDict.keys())
+            self._nowKeysList = list(self._proc.DetectedItemDict.keys())
             self._formerKeysList = list(self._formerDetectedItemDic.keys())
             if (len(self.ProcResult) > self._itemCount):
-                for i in range(len(self._keysList)):
+                for i in range(len(self._nowKeysList)):
                     self._isMakeRegist:bool = False
-                    if(self._keysList[i] not in self._formerKeysList):
+                    if(self._nowKeysList[i] not in self._formerKeysList):
                         self._isMakeRegist = True
                     if(self._isMakeRegist == False):
-                        if(self._proc.DetectedItemDict[self._keysList[i]] > self._formerDetectedItemDic[self._keysList[i]]):
+                        if(self._proc.DetectedItemDict[self._nowKeysList[i]] > self._formerDetectedItemDic[self._nowKeysList[i]]):
                             self._isMakeRegist = True
                     if(self._isMakeRegist):
                         self.addedProcRes = FrameResult(self._roopCounter, self.ProcResult[i].Box, self.snapdate,\
                                                         self.RawImg, self.RawImg) # 結局位置データは使わないことになってるので，一旦ProcResultの整合性は横に置く
-                        self._resImgCreator.CreateImg(self.addedProcRes, self._keysList[i])
-                        self.addedItem = TimeSeriesData(self._keysList[i], self.addedProcRes)
+                        self._resImgCreator.CreateImg(self.addedProcRes, self._nowKeysList[i])
+                        self.addedItem = TimeSeriesData(self._nowKeysList[i], self.addedProcRes)
                         self._resDB.append(self.addedItem)
-                        print(f"[ADD  ] : {self._keysList[i]}")
+                        print(f"[ADD  ] : {self._nowKeysList[i]}")
         else:
             self.InitResDB(self.ProcResult, self.RawImg, self.snapdate)
         
@@ -84,17 +84,23 @@ class Tracker():
         
         # TODO 物体が消えた場合の処理を追加する
         if (len(self.ProcResult) < self._itemCount):
-            for i in range(len(self._keysList)):
-                self._isDeleteRegist:bool = False
-                if(self._keysList[i] not in self._keysList):
-                    self._isDeleteRegist = True
-                if(self._isDeleteRegist == False):
-                    if(self._proc.DetectedItemDict[self._keysList[i]] < self._formerDetectedItemDic[self._keysList[i]]):
+            if(len(self._nowKeysList)==0):
+                self._isDeleteRegist:bool = True
+                self._removeIdx = 0
+                del self._resDB[self._removeIdx]
+                print(f"[ALL REMOVE]")
+            else:
+                for i in range(len(self._nowKeysList)):
+                    self._isDeleteRegist:bool = False
+                    if(self._nowKeysList[i] not in self._formerDetectedItemDic):
                         self._isDeleteRegist = True
-                if(self._isDeleteRegist):
-                    self._removeIdx = self._itemExp.FindFromLabelInResDB(self._resDB, self._keysList[i])
-                    del self._resDB[self._removeIdx ]
-                    print(f"[REMOVE] : {self._keysList[i]}")
+                    if(self._isDeleteRegist == False):
+                        if(self._proc.DetectedItemDict[self._nowKeysList[i]] < self._formerDetectedItemDic[self._nowKeysList[i]]):
+                            self._isDeleteRegist = True
+                    if(self._isDeleteRegist):
+                        self._removeIdx = self._itemExp.FindFromLabelInResDB(self._resDB, self._nowKeysList[i])
+                        del self._resDB[self._removeIdx ]
+                        print(f"[REMOVE] : {self._nowKeysList[i]}")
             # 消えた場合は，フロント側のデータベースに情報を受け渡す
             # 消えていなければ，pass
         
