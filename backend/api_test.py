@@ -1,16 +1,18 @@
 import requests
 import datetime
 
-url = 'http://localhost:8000/tracker/lost'
-url = "https://kb2302-jphack-471e16480034.herokuapp.com/tracker/lost"
+url = 'http://localhost/tracker/lost'
+#url = "https://kb2302-jphack-471e16480034.herokuapp.com/tracker/lost"
+url = "https://jphacks-kb2302.azurewebsites.net/tracker/lost"
 
 time = datetime.datetime.utcnow().strftime("%Y/%m/%d %H:%M:%S")
-user = "heroku使ってみるよ"
-room_id = 2
-camera_id = 5
-label = "pen case"
-image = open("IMG_4232.jpg", 'rb')
-detect_image = open("IMG_4232detect.jpg", 'rb')
+user = "Azure使ってみるよ2"
+room_id = 3
+camera_id = 2
+label = "remote"
+IMG_NAME = "IMG_4239"
+image = open(IMG_NAME + ".jpg", 'rb')
+detect_image = open(IMG_NAME + "detect.jpg", 'rb')
 valid = True
 
 data = {"user": user,
