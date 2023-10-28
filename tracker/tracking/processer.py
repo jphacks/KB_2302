@@ -30,10 +30,11 @@ class Processer():
                 init=self.__dict[label]
                 self.__dict[label]=init+1
             label=label+str(self.__dict[label])
-            leftcoordinatex=results[0].boxes[i].xyxy[0][0]
-            leftcoordinatey=results[0].boxes[i].xyxy[0][1]
-            rightcoordinatex=results[0].boxes[i].xyxy[0][2]
-            rightcoordinatey=results[0].boxes[i].xyxy[0][3]
+            leftcoordinatex=int(results[0].boxes[i].xyxy[0][0])
+            leftcoordinatey=int(results[0].boxes[i].xyxy[0][1])
+            rightcoordinatex=int(results[0].boxes[i].xyxy[0][2])
+            rightcoordinatey=int(results[0].boxes[i].xyxy[0][3])
+            print(type(leftcoordinatex))
             rect=RectangleFactory(leftcoordinatex,leftcoordinatey,rightcoordinatex,rightcoordinatey)
             item=ItemResult(label,is_track,rect)
             self.itemresult.append(item)
