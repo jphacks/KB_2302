@@ -9,7 +9,7 @@ import json
 import requests
 import os
 # 環境変数を取得
-if True:
+if False:
     import dotenv
     dotenv.load_dotenv()
 goo_api_key = os.environ["GOO_API_KEY"]
@@ -44,6 +44,14 @@ origins = [
 ]
 
 
+origins = [
+    "https://kb-2302.vercel.app",
+    "http://localhost",
+    "http://localhost:8080",
+    "http://localhost:8081",
+]
+
+
 app = FastAPI()
 
 app.add_middleware(
@@ -53,7 +61,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 
 @app.get("/")
 async def root():
