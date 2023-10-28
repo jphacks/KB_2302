@@ -7,3 +7,4 @@ bus.jpg
 # 動画
 *.mp4
 
+./figures/*

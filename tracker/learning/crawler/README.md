@@ -1,7 +1,9 @@
 探す対象物
-- リモコン
-- 鍵
-- スマホ
-- 充電器
-- 
-
+- 鍵 key
+- スマホ smartphone
+- 筆箱　pencil case
+- イヤホン earphone
+- マウス mouse
+- リモコン remote controller
+- 腕時計 wristwatch
+- タバコ tobacco
