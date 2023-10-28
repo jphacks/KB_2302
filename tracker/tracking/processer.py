@@ -10,17 +10,19 @@ class Processer():
         self.__conf=0.3
         self.__iou=0.5
         self.__showflag=True
+        self.__persist = True
         self.itemresult:List[ItemResult] = []
         self.DetectedItemDict={}
-        self._model = YOLO("tracker/tracking/yolov8n.pt")
+        self._model = YOLO("yolov8n.pt")
 
     def Execute(self,frame):
         self.itemresult.clear()
         self.results = self._model.track(
-        frame,
-        conf=self.__conf, 
-        iou=self.__iou, 
-        show=self.__showflag
+            frame,
+            conf=self.__conf, 
+            iou=self.__iou, 
+            persist=self.__persist,
+            show=self.__showflag
         )
         for i in range(len(self.results[0].boxes)):
             self.is_track=self.results[0].boxes[i].is_track
