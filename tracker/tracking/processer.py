@@ -11,10 +11,11 @@ class Processer():
         self.__iou=0.5
         self.__showflag=True
         self.itemresult:List[ItemResult] = []
-        self.__dict={}
+        self.DetectedItemDict={}
         self._model = YOLO("tracker/tracking/yolov8n.pt")
 
     def Execute(self,frame):
+        self.itemresult.clear()
         self.results = self._model.track(
         frame,
         conf=self.__conf, 
@@ -30,13 +31,13 @@ class Processer():
             if self.label not in GetTargetLabel():
                 continue
             
-            elif(self.label not in self.__dict):
-                self.__dict[self.label]=1
+            elif(self.label not in self.DetectedItemDict):
+                self.DetectedItemDict[self.label]=1
             else:
-                self.init=self.__dict[self.label]
-                self.__dict[self.label]=self.init+1
+                self.init=self.DetectedItemDict[self.label]
+                self.DetectedItemDict[self.label]=self.init+1
                 
-            #self.label=self.label+str(self.__dict[self.label])
+            #self.label=self.label+str(self.DetectedItemDict[self.label])
             self.leftcoordinatex=int(self.results[0].boxes[i].xyxy[0][0])
             self.leftcoordinatey=int(self.results[0].boxes[i].xyxy[0][1])
             self.rightcoordinatex=int(self.results[0].boxes[i].xyxy[0][2])
@@ -44,6 +45,7 @@ class Processer():
             self.rect=RectangleFactory(self.leftcoordinatex,self.leftcoordinatey,self.rightcoordinatex,self.rightcoordinatey)
             self.item=ItemResult(self.label,self.is_track,self.rect)
             self.itemresult.append(self.item)
+
         return self.itemresult
 
 def RectangleFactory(leftx,lefty,rightx,righty):
