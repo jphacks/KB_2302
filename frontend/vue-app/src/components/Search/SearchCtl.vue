@@ -1,18 +1,18 @@
 <template>
-  <v-main>
-    <v-card max-width="600" class="mx-auto">
+  <v-main class="vmain" pa-0>
+    <v-card max-width="600" class="mx-auto my-5">
       <v-text-field
         v-model="keyword"
-        append-icon="mdi-magnify"
+        prepend-inner-icon="mdi-magnify"
         label="検索"
         single-line
         hide-details
         @keydown.enter="search(keyword, 1)"
       ></v-text-field>
       <v-btn color="primary" width="50%" @click="search(keyword, 1)"
-        >検索1</v-btn
+        >完全一致検索</v-btn
       ><v-btn color="primary" width="50%" @click="search(keyword, 2)"
-        >検索2</v-btn
+        >gooAPI検索</v-btn
       >
     </v-card>
     <v-card v-if="beforeSearch">
@@ -44,14 +44,24 @@
         </v-row>
       </v-container>
     </v-card>
-    <a href="http://www.goo.ne.jp/"  class="center">
-      <img
-        src="//u.xgoo.jp/img/sgoo.png"
-        max-width="50"
-        alt="supported by goo"
-        title="supported by goo"
-      />
-    </a>
+    <v-container>
+      <v-spacer></v-spacer>
+      <v-card class="goocredit">
+        <v-card-text>
+          GooAPI検索は、<a href="https://labs.goo.ne.jp/api/textpair_doc"
+            >テキストペア類似度API</a
+          >を使用しています。
+        </v-card-text>
+        <a href="http://www.goo.ne.jp/">
+          <v-img
+            src="//u.xgoo.jp/img/sgoo.png"
+            alt="supported by goo"
+            title="supported by goo"
+          />
+        </a>
+      </v-card>
+      <v-spacer></v-spacer>
+    </v-container>
   </v-main>
 </template>
   
@@ -106,9 +116,28 @@ export default {
 };
 </script>
     <style scoped>
-    .center {
+.vmain {
+  background-color: lightsteelblue;
+  height: 100%;
+  justify-content: center;
+}
+.center {
   display: flex;
   justify-content: center; /* 横方向に中央揃え */
   align-items: center; /* 縦方向に中央揃え */
+}
+/*横幅が300px以下の場合に適用*/
+@media screen and (max-width: 300px) {
+  .goocredit {
+    width: 100%;
+  }
+}
+@media screen and (min-width: 300px) {
+  .goocredit {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 300px;
+  }
 }
 </style>
