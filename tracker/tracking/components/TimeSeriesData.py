@@ -12,6 +12,6 @@ class TimeSeriesData():
     Result : list[FrameResult]
         検出結果の時系列データ
     """
-    def __init__(self, label:str):
+    def __init__(self, label:str, res:FrameResult):
         self.Label:str = label
-        self.Result:List[FrameResult] = []
+        self.Result:List[FrameResult] = [res]

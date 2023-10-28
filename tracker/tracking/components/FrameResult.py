@@ -1,5 +1,7 @@
 import numpy
+import datetime
 from components.Point2i import Point2i
+from components.Rectangle import Rectangle
 
 
 class FrameResult():
@@ -19,9 +21,9 @@ class FrameResult():
     ResultImg : numpy
         RawImgを処理し，物体検出結果を重ね合わせた画像データ
     """
-    def __init__(self, index:int, position:Point2i, time:float, rawImg:numpy, resultImg:numpy):
+    def __init__(self, index:int, rectangle:Rectangle, time:datetime, rawImg:numpy, resultImg:numpy):
         self.Index:int = index
-        self.Position:Point2i = position
-        self.Time:float = time
+        self.Rectangle:Rectangle = rectangle
+        self.Time:datetime = time
         self.RawImg:numpy = rawImg
         self.ResultImg:numpy = resultImg 
