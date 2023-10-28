@@ -53,7 +53,7 @@ def lost():
 
 
 if __name__ == '__main__':
-    flask_app.run(debug=True, host="localhost", port=8000)
+    flask_app.run()
     """
     img = ""
     detect_img = ""
