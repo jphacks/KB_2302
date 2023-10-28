@@ -1,7 +1,8 @@
 import numpy
-from Point2i import Point2i
+from components.Point2i import Point2i
 
-class FrameResult:
+
+class FrameResult():
     """
     ある時刻(フレーム)の結果データ
     
