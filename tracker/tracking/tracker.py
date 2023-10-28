@@ -16,7 +16,7 @@ class Tracker():
 
     def Execute(self):
         # TODO 1. もっさの画像処理部分を統合する
-            photoPath="zidane.jpg"
+            photoPath="tracker/tracking/zidane.jpg"
         # TODO 2. YOLOv5で物体検出部分を実装する
             processer=Processer()
             processer.Execute(photoPath)

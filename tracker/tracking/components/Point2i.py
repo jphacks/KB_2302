@@ -10,6 +10,6 @@ class Point2i():
     Y : int
         Y方向位置
     """
-    def __init__(self, x:int, y:int):
+    def __init__(self, x:float, y:float):
         self.X = x
         self.Y = y
