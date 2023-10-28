@@ -8,3 +8,7 @@ bus.jpg
 *.mp4
 
 ./figures/*
+
+__pycache__/*
+
+
