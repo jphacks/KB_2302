@@ -73,7 +73,7 @@ def main(target :str):
     for j, src in enumerate(srcs):
         if j % 50 == 0 or j == len(srcs)-1:
             print("|"+ ("■" * (20 * j // (len(srcs)-1)))+ (" -" * (20 - 20 * j // (len(srcs)-1)))+ "|",f"{100*j//(len(srcs)-1)}%") #ダウンロードの進捗示すやつ
-        file_name = f"{'_'.join(query.split())}_{str(i).zfill(3)}.jpg" #ファイル名とか場所とか
+        file_name = f"{'_'.join(query.split())}_{str(i).zfill(3)}.png" #ファイル名とか場所とか
         file_name = os.path.join(os.path.join(FIGURRES_DIR, query), file_name)
         
         src = src.get_attribute("src")
