@@ -1,7 +1,7 @@
 <template>
   <v-main>
     <v-card>
-      <v-card-title>JPHACKS KB_2302 なくしものさがし</v-card-title>
+      <v-card-title>JPHACKS KB_2302 探しAI(さがしあい)</v-card-title>
       <v-card-subtitle>～探し物 × Tech～</v-card-subtitle>
     </v-card>
     <v-tabs v-model="tab" bg-color="primary">
