@@ -27,7 +27,7 @@ class Tracker():
         self._resDB:List[TimeSeriesData] = []
         self._itemCount:int = 0
         self._threshListCount = 10 # 保存するフレーム数
-        self._cam:CamController = CamController(0)
+        self._cam:CamController = CamController(1)
         self._itemExp:ItemExplorer = ItemExplorer()
         self._resImgCreator:ResultImgCreator = ResultImgCreator([0, 255, 0], [211, 0, 148])
         #self._proc = ProcessorForTest(10)
@@ -107,11 +107,11 @@ class Tracker():
                     if(self._isDeleteRegist):
                         self._removeIdx = self._itemExp.FindFromLabelInResDB(self._resDB, self._nowKeysList[i])
                         res = postData(
-                            label = self._formerKeysList[self._removeIdx],
+                            label = self._nowKeysList[i],
                             rawimg=self.RawImg,
                             detectimg=self.RawImg
                         )
-                        del self._resDB[self._removeIdx ]
+                        del self._resDB[self._removeIdx]
                         print(f"[REMOVE] : {self._nowKeysList[i]}")
             # 消えた場合は，フロント側のデータベースに情報を受け渡す
             # 消えていなければ，pass
