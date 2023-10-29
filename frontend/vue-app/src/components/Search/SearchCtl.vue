@@ -91,7 +91,7 @@ export default {
       this.beforeSearch = false;
       let url = "";
       if (type == 2) {
-        url = `https://kb2302-develop.onrender.com/search/word/v1?q=${keyword}`;
+        url = `https://kb2302-develop.onrender.com/search/word/v2?q=${keyword}`;
       } else {
         url = `https://kb2302-develop.onrender.com/search/label/v1?q=${keyword}`;
       }
