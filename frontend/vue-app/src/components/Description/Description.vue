@@ -1,10 +1,34 @@
 <template>
   <v-main>
     <v-card class="desccard">
-      <v-card-title>このサービスについて アイデア</v-card-title>
+      <v-card-title>背景（製品開発のきっかけ、課題等）</v-card-title>
       <v-card-text>
-        日々の生活の中で、物が紛失することが多くあります。近年、AirtagやTileなどの紛失防止タグが登場していることから、もの探しの効率化が望まれていることが伺われます。しかしながら、これらのタグは高価でかさばるため、日用品全てに使用することは難しい状況です。この課題に対して、カメラを用いたもの探し支援アプリを開発いたしました。カメラで撮影したデータをAIによって処理することで、物体を追跡し、物がしまわれた、持ち出されたなどの情報を検知・記録することができます。使用者は、検索フォームから無くしたものを探すことができます。
+        私たちは衛星開発を複数人で行うにあたって，道具や部品が散らばったり，無くなったりする事がよくある．それは自分がどこにしまったか忘れてしまっていることや，他の人が移動させたことが原因で起きており，この問題は研究室や作業部屋といった複数人で空間を共有するケースや個人の家の中であっても起こりうるものである． こういった課題を解決するAirTagといった製品は需要があり，徐々に浸透してきているが，タグはそれ自体が高価であったり，取り付けにくいものがあるなどから，紛失防止が十分に達成されているとは言えないと思われる． 私たちはこういった問題を解決するべく，より多くのものの捜索を行うことができるサービスを実現したいと考え，AIの画像認識を用いた物体追跡により，もの探しを支援するアプリの開発に至った．
       </v-card-text>
+    </v-card>
+    <v-card class="desccard">
+      <v-card-title>カメラでのトラッキングと紛失検知の動画</v-card-title>
+      <iframe
+        width="560"
+        height="315"
+        src="https://www.youtube.com/embed/tChvnhBinck?si=QWvnVPIeAxQZCMmr"
+        title="YouTube video player"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+      ></iframe>
+    </v-card>
+    <v-card class="desccard">
+      <v-card-title>紛失検知と検索のデモ動画</v-card-title>
+      <iframe
+        width="560"
+        height="315"
+        src="https://www.youtube-nocookie.com/embed/4I6-guNvUiY?si=tWYtrxu8WT7nxr-s"
+        title="YouTube video player"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+      ></iframe>
     </v-card>
   </v-main>
 </template>
