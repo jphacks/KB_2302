@@ -1,5 +1,5 @@
 <template>
-  <v-main >
+  <v-main>
     <v-card>
       <v-card-title>JPHACKS KB_2302 なくしものさがし</v-card-title>
       <v-card-subtitle>～探し物 × Tech～</v-card-subtitle>
@@ -14,9 +14,9 @@
       <v-window-item value="one">
         <SearchCtl />
       </v-window-item>
-    
-      <v-window-item value="two"> 開発中です！！ </v-window-item>
-
+      <v-window-item value="two">
+        <ListUp />
+      </v-window-item>
       <v-window-item value="three">
         <Description />
       </v-window-item>
@@ -24,15 +24,16 @@
   </v-main>
 </template>
 <script>
-
 import SearchCtl from "./Search/SearchCtl.vue";
+import ListUp from "./ListUp/ListUp.vue";
 import Description from "./Description/Description.vue";
 
 export default {
   name: "MainPage",
   components: {
     SearchCtl,
-    Description
+    ListUp,
+    Description,
   },
   data: () => ({
     tab: null,
