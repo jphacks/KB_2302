@@ -71,6 +71,28 @@ async def root():
 def read_item(item_id: int, q: Optional[str] = None):
     return {"item_id": item_id, "q": q}
 
+@app.get("/getlist/v1")
+def get_objectlist_v1():
+    collection = db.collection(u'lost_objects')
+    query = collection.order_by(u'time', direction=firestore.Query.DESCENDING)
+    docs = query.get()
+    retdocs = []
+    labelset = set()
+    for doc in docs:
+        aobject = doc.to_dict()
+        if aobject['label'] in labelset:
+            pass
+        else:
+            labelset.add(aobject['label'])
+            try:
+                dt = datetime.datetime.fromtimestamp(aobject['time'].timestamp())+datetime.timedelta(hours=9)
+                aobject['time'] = dt.strftime('%Y/%m/%d %H:%M:%S')
+            except:
+                aobject['time'] = "Unknown"
+            retdocs.append(aobject)
+    return JSONResponse(content={"count": len(retdocs), "contents": retdocs})
+
+
 
 @app.get("/search/word/v1")
 def search_keyword_v1(q: Optional[str] = None):
