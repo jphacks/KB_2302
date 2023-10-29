@@ -41,16 +41,21 @@ AIを利用した画像処理を行っているので，キーワード入力で
 ## 開発技術
 ### 活用した技術
 #### API・データ
-* 
+* Firebase API
 * 
 
 #### フレームワーク・ライブラリ・モジュール
 * 物体検出用AI「Ultralytics YOLOv8 」
-* 
+* FastAPI
 
 #### デバイス
 * Webカメラ
 * 
+
+#### インフラ
+* Firebase
+* Microsoft Azure
+* Docker
 
 ### 独自技術
 #### ハッカソンで開発した独自機能・技術
