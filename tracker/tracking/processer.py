@@ -1,3 +1,4 @@
+from tabnanny import verbose
 from ultralytics import YOLO
 from components.ItemResult import ItemResult
 from components.Point2i import Point2i
@@ -22,7 +23,8 @@ class Processer():
             conf=self.__conf, 
             iou=self.__iou, 
             persist=self.__persist,
-            show=self.__showflag
+            show=self.__showflag,
+            verbose=False,
         )
         for i in range(len(self.results[0].boxes)):
             self.is_track=self.results[0].boxes[i].is_track

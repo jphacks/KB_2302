@@ -1,4 +1,5 @@
 import time
+from turtle import pos
 import numpy
 import asyncio
 from typing import List
@@ -27,7 +28,7 @@ class Tracker():
         self._resDB:List[TimeSeriesData] = []
         self._itemCount:int = 0
         self._threshListCount = 10 # 保存するフレーム数
-        self._cam:CamController = CamController(1)
+        self._cam:CamController = CamController(0)
         self._itemExp:ItemExplorer = ItemExplorer()
         self._resImgCreator:ResultImgCreator = ResultImgCreator([0, 255, 0], [211, 0, 148])
         #self._proc = ProcessorForTest(10)
@@ -89,7 +90,7 @@ class Tracker():
             if(len(self._nowKeysList)==0):
                 self._isDeleteRegist:bool = True
                 self._removeIdx = 0
-                res = postData(
+                postData(
                     label = self._formerKeysList[self._removeIdx],
                     rawimg=self.RawImg,
                     detectimg=self.RawImg
@@ -106,7 +107,7 @@ class Tracker():
                             self._isDeleteRegist = True
                     if(self._isDeleteRegist):
                         self._removeIdx = self._itemExp.FindFromLabelInResDB(self._resDB, self._nowKeysList[i])
-                        res = postData(
+                        postData(
                             label = self._nowKeysList[i],
                             rawimg=self.RawImg,
                             detectimg=self.RawImg

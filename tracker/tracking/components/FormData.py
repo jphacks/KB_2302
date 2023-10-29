@@ -3,27 +3,32 @@ import io
 import requests
 import asyncio
 import aiohttp
+import threading
 
 url = "https://jphacks-kb2302.azurewebsites.net/tracker/lost"
 
-async def postData(
-    label:str,
-    rawimg,
-    detectimg,
-    user:str = "SSSRC",
-    room_id:int = 1,
-    camera_id:int = 1,
-):
-    await __postData(
-        label=label,
-        rawimg=rawimg,
-        detectimg=detectimg,
-        user=user,
-        room_id=room_id,
-        camera_id=camera_id
-    )
+def postData(
+        label:str,
+        rawimg,
+        detectimg,
+        user:str = "SSSRC",
+        room_id:int = 1,
+        camera_id:int = 1,
+    ):
+    thread = threading.Thread(
+            target=__postData, 
+            args=(
+                label, 
+                rawimg, 
+                detectimg,
+                user,
+                room_id,
+                camera_id
+            )
+        )
+    thread.start()
 
-async def __postData(
+def __postData(
         label:str,
         rawimg,
         detectimg,
@@ -59,22 +64,21 @@ async def __postData(
     ret, buffer2 = cv2.imencode(".jpg", rawimg, encode_param)
     byte_stream2 = io.BytesIO(buffer2)
     
-    # files = {"img": byte_stream, "detect_img": byte_stream}
     
-    data = aiohttp.FormData()
-    data.add_field("user", user)
-    data.add_field("room_id", str(room_id))
-    data.add_field("camera_id", str(camera_id))
-    data.add_field("label", label)
-    data.add_field("valid", "True")
-    data.add_field("img", byte_stream, filename="img.jpg", content_type="image/jpeg")
-    data.add_field("detect_img", byte_stream2, filename="detect_img.jpg", content_type="image/jpeg")
-    
-    # Send the POST request
-    async with aiohttp.ClientSession() as session:
-        async with session.post(url, data=data) as response:
-            return await response.text()
+    data = {
+        "user": user,
+        "room_id": str(room_id),
+        "camera_id": str(camera_id),
+        "label": label,
+        "valid": True,
+    }
+    files = {
+        "img": byte_stream,
+        "detect_img": byte_stream2
+    }
 
+    # Send the POST request
+    response = requests.post(url, data=data, files=files)
 
 if __name__ == "__main__":
     # テスト用
